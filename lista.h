@@ -41,22 +41,20 @@ void add(List *lista, char *element){
 
 int get(List *lista, int pos){
     int i;
-    Node *aux = lista->first;
-    for(i = 0; i < lista->len && aux != NULL; i++){
+    Node *aux;
+    for(i = 0, aux = lista->first; i < lista->len && aux != NULL; i++, aux = aux->next){
         if(i == pos){
             return aux->data;
         }
-        aux = aux->next;
     }
     return 0;
 }
 
 void print_List(List *lista){
     int i;
-    Node *aux = lista->first;
-    for(i = 0; i < lista->len && aux != NULL; i++){
+    Node *aux;// = lista->first;
+    for(i = 0, aux = lista->first; i < lista->len && aux != NULL; i++, aux = aux->next){
         printf("i: %d - 0x%x\n", i, aux->data);
-        aux = aux->next;
     }
 }
 

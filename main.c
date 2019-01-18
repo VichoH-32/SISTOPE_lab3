@@ -46,14 +46,21 @@ List* readFile( char *fileName){
     return new;
 }
 
+void createDirectionsFile(List *lista){
+    FILE *fp = fopen("out1.txt", "w");
+    int i;
+    Node *aux;
+    for(i = 0, aux = lista->first; i < lista->len && aux != NULL; i++, aux = aux->next){
+        fprintf(fp, "0x%x\n", aux->data);
+    }
+    fclose(fp);
+}
+
 int main(int argc, char **argv) {
     getFlags(argc, argv);
-    List *directions = readFile("file.txt");
+    List *directions = readFile("in1");
     print_List(directions);
-
-    FILE *fp = fopen("salida1.txt", "w");
-    
-
+    createDirectionsFile(directions);
     free_List(directions);
     return 0;
 }
