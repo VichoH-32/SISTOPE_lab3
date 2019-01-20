@@ -4,9 +4,17 @@
 #include "lista.h"
 #include "estructuras.h"
 //#include <math.h>
+/**
+ * addres space = 2^16 ~ 64kB
+ * page size = 2^offset
+ * entries = 2^(root+second)
+ *
+ */
 
-int root_bits = 0;
-int second_bits = 0;
+ushort root_bits = 0;
+ushort second_bits = 0;
+ushort offset = 0;
+
 
 /*****************************************************
  * Funcion que recibe los parametros de las banderas *
@@ -57,11 +65,44 @@ void createDirectionsFile(List *lista){
     fclose(fp);
 }
 
+ushort shinkDirection(int shiftAmount, int num){
+    ushort newNum = num,i;
+    for(i = 0; i < shiftAmount; i++){
+        newNum = (newNum << 1);
+    }
+    for(i = 0; i < shiftAmount; i++){
+        newNum = (newNum >> 1);
+    }
+    return newNum;
+}
+
 int main(int argc, char **argv) {
     getFlags(argc, argv);
-    List *directions = readFile("in1");
-    print_List(directions);
-    createDirectionsFile(directions);
-    free_List(directions);
+    printf("%d - %d\n", root_bits, second_bits);
+    offset = 16 - root_bits - second_bits;
+    if( offset <= 1 ){
+        printf("ERROR: parametros invalidos, los bits de la raiz y secundario debe ser menor a 16\n");
+        return 1;
+    }
+    List *directions = readFile("Archivo1.txt"); //Archivo2.txt para los marcos
+    if(directions != NULL){
+        print_List(directions);
+        createDirectionsFile(directions);
+        free_List(directions);
+
+        //crear lvl 1 con 2^root_bits entradas
+        //crear tabla lvl 2 con segundo archivo de entrada
+
+        //leer direcciones
+        //  por cada direccion, si cabe dentro del addres space:
+        //      sacar vpn root de la direccion (shift right) y buscar en la
+        //      tabla lvl 2.
+
+        printf("\n--- TEST ---\n");
+        ushort var = 0xFFFF;
+        printf("val: %hx\n", var);
+        printf("val: %hx\n", shinkDirection(root_bits + second_bits, var));
+        printf("\n--- TEST ---\n");
+    }
     return 0;
 }

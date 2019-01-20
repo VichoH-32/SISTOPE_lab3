@@ -1,7 +1,7 @@
 #include <string.h>
 
 typedef struct _nodo{
-    int data;
+    ushort data; //direccion de 16 bits sin signo (short int = 2 bytes)
     struct _nodo *next;
     struct _nodo *prev;
 }Node;
@@ -23,7 +23,7 @@ List* new_List(){
 void add(List *lista, char *element){
     Node *new = (Node *)malloc(sizeof(Node));
     //new->data = strdup(element);
-    sscanf(element, "%x", &(new->data));
+    sscanf(element, "%hx", &(new->data));//lee un short int en hex
     if(lista->len == 0){
         new->next = NULL;
         new->prev = NULL;
@@ -54,7 +54,7 @@ void print_List(List *lista){
     int i;
     Node *aux;// = lista->first;
     for(i = 0, aux = lista->first; i < lista->len && aux != NULL; i++, aux = aux->next){
-        printf("i: %d - 0x%x\n", i, aux->data);
+        printf("i: %d - 0x%hx\n", i, aux->data);
     }
 }
 
