@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "lista.h"
+#include "estructuras.h"
 //#include <math.h>
 
 int root_bits = 0;
